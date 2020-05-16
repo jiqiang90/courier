@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Shipper</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="./css/bootstrap.min.css">
+
+        <link rel="stylesheet" href="./css/main.css">
+
+        <script src="./node_modules/web3/dist/web3.min.js"></script>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+
+        <script src="./js/jquery.min.js"></script>
+
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" crossorigin="anonymous"></script>
+
+        <script src="bundle.js"></script>
+
+
+
+    </head>
+    <body ng-app="myApp" ng-controller="shipperCtrl">
+
+        <div class='container'>
+
+            <h1>Shipper page</h1>
+            <span ng-if = 'principal_account' class='text-muted'>Address: {{shipper_account}}</span>
+            <hr>
+        </div>
+
+
+        <div class="container" >
+            <a ng-click='ShipperRecipientKeyPair = getKeyPair(ShipperRecipientContract, ShipperRecipientContractAdd,recipient_account)' class='btn btn-sm btn-primary'>Reload</a>
+
+            <h3 class='header'>1. Contract Shipper & Recipient (Exchange public key) </h3>
+            <br>
+            <form class="form-horizontal"  ng-hide= 'ShipperRecipientKeyPair'>
+                <div class="form-group">
+                    <label class="control-label col-sm-2">Shipper Account number:</label>
+                    <div class="col-sm-10">
+                        <select class="form-control" ng-model="shipper_account">
+                            <option ng-repeat="account in all_accounts" value="{{account}}">{{account}}</option>
+                        </select>
+
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-sm-2">Recipient Account number:</label>
+
+
+                    <div class="col-sm-10">
+                        <select class="form-control" ng-model="recipient_account">
+                            <option ng-repeat="account in all_accounts" value="{{account}}">{{account}}</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group" ng-show='shipper_account && recipient_account'> 
+                    <label class="control-label col-sm-2">Key pair generator:</label>
+                    <div class="col-sm-10"> 
+                        <button type="submit" class="btn btn-default" ng-click="getShipperRecipientKeys()">Generate key pairs (Shipper & Recipient)</button>
+
+                    </div>
+                    <div class='col-sm-offset-2 col-sm-10' ng-show='ShipperRecipientKeys && ShipperRecipientKeys !== null' style="margin-top: 10px">
+                        <h4>Shipper & recipient key pair: </h4>                
+                        <label>Private Key</label>:<code ng-bind='ShipperRecipientKeys.privateKey'></code><br>
+                        <span ng-hide='PartialKeyStore && PartialKeyTransfer'><label>Public Key (Full)</label>:<code ng-bind='ShipperRecipientKeys.publicKey'></code><br></span>
+                        <span ng-show='PartialKeyStore'><label>Public Key to store(First half)</label>:<code ng-bind='PartialKeyStore'></code></span><br>
+                        <span ng-show='PartialKeyTransfer'><label>Public Key to transfer(Second half)</label>:<code ng-bind='PartialKeyTransfer'></code></span><br>
+
+                        <h4>At contract:</h4>
+                        <label ng-bind='ShipperRecipientContractAdd'></label>
+
+                    </div>
+                </div>
+                <div class="form-group"> 
+                    <div class="col-sm-offset-2 col-sm-10">
+
+                        <a class="btn btn-success" ng-click = 'splitKey(ShipperRecipientKeys.publicKey)' ng-if='ShipperRecipientKeys' >Split Public Key</a>
+                        <button  class="btn btn-success" ng-show='shipper_account && recipient_account && ShipperRecipientKeys' ng-click="setShipperRecipientKeys(ShipperRecipientContract, ShipperRecipientContractAdd, recipient_account, shipper_account, recipient_account, ShipperRecipientKeys.privateKey, PartialKeyStore)"> Put in contract</button>
+                    </div>
+                </div> 
+            </form>
+
+            <table class="table table-bordered" ng-if= 'ShipperRecipientKeyPair'>
+                <thead>
+                    <tr>
+                        <th>At contract:</th>
+                        <th>{{ShipperRecipientContractAdd}}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th>Shipper Account address</th>
+                        <td>{{ShipperRecipientKeyPair[0]}}</td>
+                    </tr>
+                    <tr>
+                        <th>Recipient Account address</th>
+                        <td>{{ShipperRecipientKeyPair[1]}}</td>
+                    </tr>
+                    <tr>
+                        <th>Private Key</th>
+                        <td><code>{{ShipperRecipientKeyPair[2]}}</code></td>
+                    </tr>
+                    <tr>
+                        <th>Public Key (The first half)</th>
+                        <td><code>{{ShipperRecipientKeyPair[3]}}</code></td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+
+        <hr>
+
+        <div class='container'>
+                        <a ng-click='ShipperPrincipalKeyPair = getKeyPair(ShipperPrincipalContract, ShipperPrincipalContractAdd,principal_account)' class='btn btn-sm btn-primary'>Reload</a>
+
+            <h3 class='header'>2. Contract Shipper & Principal</h3>
+
+            <form class="form-horizontal" ng-hide= 'ShipperPrincipalKeyPair'>
+                <div class="form-group">
+                    <label class="control-label col-sm-2">Principal Account number:</label>
+                    <div class="col-sm-10">
+                        <select class="form-control" ng-model="principal_account">
+                            <option ng-repeat="account in all_accounts" value="{{account}}">{{account}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group" ng-show='shipper_account && principal_account'> 
+                    <label class="control-label col-sm-2">Key pair generator:</label>
+                    <div class="col-sm-10"> 
+                        <button type="submit" class="btn btn-default" ng-click="getShipperPrincipalKeys()">Generate key pair (Shipper & Principal)</button>
+                    </div>
+                    <div class='col-sm-offset-2 col-sm-10' ng-show='ShipperPrincipalKeys && ShipperPrincipalKeys !== null' style="margin-top: 10px">
+                        <h4>Shipper & principal key pair: </h4>                
+                        <label>Private Key</label>:<code ng-bind='ShipperPrincipalKeys.privateKey'></code><br>
+                        <label>Public Key</label>:<code ng-bind='ShipperPrincipalKeys.publicKey'></code>
+                        <h4>At contract:</h4>
+                        <label ng-bind='ShipperPrincipalContractAdd'></label>
+                    </div>
+                </div>
+                <div class="form-group"> 
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <button type="submit" class="btn btn-success" ng-show='shipper_account && principal_account && ShipperPrincipalKeys' ng-click="setShipperPrincipalKeys(ShipperPrincipalContract, ShipperPrincipalContractAdd, principal_account, shipper_account, principal_account, ShipperPrincipalKeys.privateKey, ShipperPrincipalKeys.publicKey)">Put in contract </button>
+                    </div>
+                </div>
+            </form>
+
+            <table class="table table-bordered" ng-if= 'ShipperPrincipalKeyPair'>
+                <thead>
+                    <tr>
+                        <th>At contract:</th>
+                        <th>{{ShipperPrincipalContractAdd}}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th>Shipper Account address</th>
+                        <td>{{ShipperPrincipalKeyPair[0]}}</td>
+                    </tr>
+                    <tr>
+                        <th>Principal Account address</th>
+                        <td>{{ShipperPrincipalKeyPair[1]}}</td>
+                    </tr>
+                    <tr>
+                        <th>Private Key</th>
+                        <td><code>{{ShipperPrincipalKeyPair[2]}}</code></td>
+                    </tr>
+                    <tr>
+                        <th>Public Key</th>
+                        <td><code>{{ShipperPrincipalKeyPair[3]}}</code></td>
+                    </tr>
+
+                </tbody>
+            </table>
+            
+            <hr>
+
+            <form class="form-horizontal" ng-hide= 'consignment'>
+                 
+                 <div class="input-group ">
+                    <div class="input-group-btn">
+                        <button type="submit" class="btn btn-primary btn-sm" ng-click='consignment = getConsignment (ShipperPrincipalContractAdd, trackingNum, shipper_account)'>Reload</button>
+                    </div>
+                    <input type="text" class="form-control input-sm" placeholder="tracking number"  ng-model='trackingNum' style="width: 200px"> 
+                </div>
+                <br>
+                <div class="form-group">
+                    <label class="control-label col-sm-2">Shipper Name:</label>
+                    <div class="col-sm-10"> 
+                        <input type="text" class="form-control" id="shipper_name" placeholder="Enter shipper name" ng-model= 'shipper_name'>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-sm-2">Shipper address:</label>
+                    <div class="col-sm-10"> 
+                        <input type="text" class="form-control" id="shipper_address" placeholder="Enter shipper address" ng-model= 'shipper_address'>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-sm-2">Recipient Name:</label>
+                    <div class="col-sm-10"> 
+                        <input type="text" class="form-control" id="recipient_name" placeholder="Enter recipient name" ng-model='recipient_name'>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-sm-2">Recipient address:</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="recipient_addresss" placeholder="Enter recipient adddress" ng-model='recipient_address'>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-2">Item description:</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="item_description" placeholder="What is inside the parcel" ng-model='item_description'>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-2">Weight: (KG)</label>
+                    <div class="col-sm-10"> 
+                        <input type="number" class="form-control" id="item_weight" step="0.1" placeholder="Weight of the parcel" ng-model="item_weight" ng-change="shipping_cost = (item_value * item_weight) / 100">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-sm-2">Item value ($):</label>
+                    <div class="col-sm-10"> 
+                        <input type="number" class="form-control" id="item_value" step="0.1" placeholder="Enter item value" ng-model="item_value" ng-change="shipping_cost = (item_value * item_weight) / 100">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-sm-2">Shipping cost (eth):</label>
+                    <div class="col-sm-10"> 
+                        <input class="form-control"  ng-model = 'shipping_cost' > 
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-sm-2">Public key for recipient (the second half):</label>
+                    <div class="col-sm-10"> 
+                        <input type="text" class="form-control" id="keypair_address" ng-model='PartialKeyTransfer' disabled="true">
+                    </div>
+                </div>
+
+                <div class="form-group"> 
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <button type="submit" class="btn btn-success" ng-show='shipper_name && shipper_address && recipient_name && recipient_address && item_description && item_weight && item_value && ShipperPrincipalKeyPair' ng-click="createConsignment(shipper_name, shipper_address, recipient_account,PartialKeyTransfer, recipient_name, recipient_address, item_description, item_weight, item_value, shipping_cost, ShipperPrincipalContractAdd, principal_account)">Confirm contract </button>
+                    </div>
+                </div>
+            </form>
+
+            
+            <table class="table table-bordered" ng-if= 'consignment'>
+                <thead>
+                    <tr>
+                        <th>Tracking number:</th>
+                        <th>{{consignment[7]}}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th>From</th>
+                        <td>{{consignment[1]}}</td>
+                    </tr>
+                    <tr>
+                        <th>To</th>
+                        <td>{{consignment[3]}}</td>
+                    </tr>
+                    <tr>
+                        <th>Item description:</th>
+                        <td>{{consignment[4]}}</td>
+                    </tr>
+                    <tr>
+                        <th>Shipping cost (eth):</th>
+                        <td>{{consignment[5]}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <hr>
+        <div class='container'>
+            <h3 class='header'>3.b Decrypt principal ciphertext, verification</h3>
+            <br>
+                 <div class="form-group">
+                        <button type="submit" class="btn btn-default"  ng-click="principal_ciphertext = getCiphertext(ShipperPrincipalContract, ShipperPrincipalContractAdd)">Get ciphertext from contract </button>
+                       
+                        <textarea class='form-control' rows='3' style="margin-top: 10px">{{principal_ciphertext}}</textarea>
+                </div>
+
+                <br>
+                <div class="form-group"> 
+       
+                    <button type="submit" class="btn btn-success"  ng-click="decryptCiphertext(principal_ciphertext, ShipperPrincipalKeyPair)">Decrypt it </button>       
+                </div>
+        </div>    
+
+
+
+        <hr>
+        <div class='container'>
+            <h3 class='header'>8. Decrypt shipper ciphertext, verification</h3>
+            <span class='text-muted'>Get confirmation from Recipient that parcel has received</span>
+            <br>
+                 <div class="form-group">
+                        <button type="submit" class="btn btn-default"  ng-click="recipient_ciphertext = getCiphertext(ShipperRecipientContract, ShipperRecipientContractAdd,shipper_account)">Get ciphertext from contract </button>
+                       
+                        <textarea class='form-control' rows='3' style="margin-top: 10px">{{recipient_ciphertext}}</textarea>
+                </div>
+
+                <br>
+                <div class="form-group"> 
+       
+                    <button type="submit" class="btn btn-success"  ng-click="decryptCiphertext(recipient_ciphertext, ShipperRecipientKeyPair)">Decrypt it </button>       
+                </div>
+        </div>    
+
+        <br>
+        <br>
+        <br>
+
+    </body>
+</html>

@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Sub-contractor</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="./css/bootstrap.min.css">
+
+        <link rel="stylesheet" href="./css/main.css">
+
+        <script src="./node_modules/web3/dist/web3.min.js"></script>
+        <script src="./node_modules/web3-utils/src/index.js"></script>
+
+
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+
+        <script src="./js/jquery.min.js"></script>
+        <script src="./js/moment.js"></script>
+
+
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" crossorigin="anonymous"></script>
+
+
+        <script src="bundle.js"></script>
+
+
+
+    </head>
+    <body ng-app="myApp" ng-controller="subcontractorCtrl">
+
+        <div class='container'>
+            <h1 >Subcontractor page</h1>
+        </div>
+
+        <div class= 'container'> 
+            <form class="form-horizontal">
+                <div class="form-group"> 
+                    <label class="control-label col-sm-2">Subcontractor address:</label>
+                    <div class="col-sm-10"> 
+                             <select class="form-control" ng-model="subcontractor_account" ng-change = 'update_default_account(subcontractor_account)'>
+                                <option ng-repeat="account in all_accounts" value="{{account}}">{{account}}</option>
+                            </select>
+                    </div>
+        </div>
+
+        <hr>
+        
+
+        <div class= 'container'> 
+            <h3 class='header'>5.a. Contractor and subcontractor verification</h3>
+            <br>
+            <form class="form-horizontal">
+
+                <div class="form-group"> 
+                    <label class="control-label col-sm-2">Retrive Key pair (transport contract):</label>
+                    <div class="col-sm-10"> 
+
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="At transport contract" ng-value='TransportContractAdd' ng-model='TransportContractAdd' disabled=""> 
+                            <div class="input-group-btn">
+                                <button type="submit" class="btn btn-success" ng-click="SubcontractorKeyPair = getKeyPair(TransportContract, TransportContractAdd, subcontractor_account)">1. Get key pair</button>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class='col-sm-12' ng-if= 'SubcontractorKeyPair' style="margin-top: 10px">
+                        <table class="table table-bordered" >
+                            <thead>
+                                <tr>
+                                    <th>At contract:</th>
+                                    <th>{{TransportContractAdd}}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <th>From subcontractor</th>
+                                    <td>{{SubcontractorKeyPair[0]}}</td>
+                                </tr>
+                                <tr>
+                                    <th>To subcontractor</th>
+                                    <td>{{SubcontractorKeyPair[1]}}</td>
+                                </tr>
+                                <tr>
+                                    <th>Private Key</th>
+                                    <td><code>{{SubcontractorKeyPair[2]}}</code></td>
+                                </tr>
+                                <tr>
+                                    <th>Public Key</th>
+                                    <td><code>{{SubcontractorKeyPair[3]}}</code></td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-sm-2">Message to encrypt:</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" placeholder="Plain message to encrypt" ng-model='plainText'>
+                    </div>
+                </div>
+                <div class="form-group"> 
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <button type="submit" class="btn btn-success"  ng-click="generateEncrypt(plainText, SubcontractorKeyPair)">2. Encrypt it </button>
+
+
+                        <button type="submit" class="btn btn-success"  ng-click="setEncrypt(TransportContract, TransportContractAdd, subcontractor_account)">3. Push to contract </button>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+        <hr>
+
+        <div class= 'container'>
+            <h3 class='header'>5.c Update transport record</h3>
+            <br>
+
+                <a ng-click='TransportRecords = getRecords(TransportContractAdd)' class='btn btn-sm btn-primary'>Get tranport reocrds</a>
+            <br>
+            <br>
+
+            <ul class="list-group">
+                <li class="list-group-item" ng-repeat='record in TransportRecords'>
+
+                    <a ng-click= "fullRecords[record] = getRecord(record, TransportContractAdd)" href=''>
+
+                        <span><timestamp time="toReadableTime(record)"></timestamp></span>
+
+                    </a>
+                    <table class="table table-bordered" ng-if= 'fullRecords[record]' style="margin-top: 10px">
+                        <thead>
+                            <tr>
+                                <th>Time Hex in contract:</th>
+                                <td> 
+                                    {{record}}
+                                </td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th>Operator</th>
+                                <td>{{fullRecords[record][2]}}</td>
+                            </tr>
+                            <tr>
+                                <th>Status</th>
+                                <td>{{fullRecords[record][3]}}</td>
+                            </tr>
+                            <tr>
+                                <th>Location:</th>
+                                <td>{{fullRecords[record][4]}}</td>
+                            </tr>
+                            <tr>
+                                <th>Recipient account:</th>
+                                <td>{{fullRecords[record][5]}}</td>
+                            </tr>
+                            <tr>
+                                <th>Consignment Info:</th>
+                                <td>{{fullRecords[record][0]}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </li>
+            </ul>
+            <hr>
+            <form class="form-horizontal">
+                
+                <div class="form-group">
+                    <label class="control-label col-sm-2">Status:</label>
+                    <div class="col-sm-10"> 
+                        <select ng-model="recordStatus_options.model" class='form-control'>
+                            <option ng-repeat="option in recordStatus_options.availableOptions" value="{{option.name}}">{{option.name}}</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-sm-2">Location:</label>
+                    <div class="col-sm-10"> 
+                        <input type="text" class="form-control" placeholder="Enter location point" ng-model='record_location'>
+                    </div>
+                </div>
+                <div class="form-group"> 
+                    <button type="submit" class="btn btn-success col-sm-offset-11"  ng-click="setSubcontractorRecord(subcontractor_account, lastRecord[0], recordStatus_options.model, record_location, lastRecord[5], TransportContractAdd)">Record it</button>            
+                </div>
+            </form> 
+            <hr>
+        </div>   
+
+
+        <div class='container'>
+            <h3 class='header'>Verification (another subcontractor/recipient)</h3>
+            <br>
+            <div class="form-group">
+                <label class="control-label col-sm-2">Key in Keypair List (reciever address):</label>
+                <div class="col-sm-10"> 
+                    <select class="form-control" ng-model="Key_subcontractor">
+                        <option ng-repeat="account in all_accounts" value="{{account}}">{{account}}</option>
+                    </select>                    
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-10 col-sm-offset-2"> 
+                    <button class="btn btn-success" ng-click='SubcontractorKeyPair = getKeyPair(TransportContract, TransportContractAdd, Key_subcontractor)'>1. Get key pair</button>
+                    <button class="btn btn-success"  ng-click="subcontract_ciphertext = getCiphertext(TransportContract, TransportContractAdd, Key_subcontractor)">2. Get ciphertext from contract </button>
+                    <button type="submit" class="btn btn-success"  ng-click="decryptCiphertext(subcontract_ciphertext, SubcontractorKeyPair)">3. Decrypt it </button>     
+                </div>    
+            </div>
+            <div class='form-group'>
+                <div class='col-sm-12' ng-if= 'SubcontractorKeyPair' style="margin-top: 10px">
+                    <table class="table table-bordered" >
+                        <thead>
+                            <tr>
+                                <th>At contract:</th>
+                                <th>{{TransportContractAdd}}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th>From contractor</th>
+                                <td>{{SubcontractorKeyPair[0]}}</td>
+                            </tr>
+                            <tr>
+                                <th>To subcontractor</th>
+                                <td>{{SubcontractorKeyPair[1]}}</td>
+                            </tr>
+                            <tr>
+                                <th>Private Key</th>
+                                <td><code>{{SubcontractorKeyPair[2]}}</code></td>
+                            </tr>
+                            <tr>
+                                <th>Public Key</th>
+                                <td><code>{{SubcontractorKeyPair[3]}}</code></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <br>
+            <div class='form-group'>
+                <div class="col-sm-12" ng-if='subcontract_ciphertext'>
+                    <textarea class='form-control' rows='3' style="margin-top: 10px">{{subcontract_ciphertext}}</textarea>
+                </div>          
+            </div>
+
+        </div>
+
+
+
+
+
+        <br>
+        <br>
+        <br>
+
+    </body>
+</html>

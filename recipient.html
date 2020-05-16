@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Recipient</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="./css/bootstrap.min.css">
+
+        <link rel="stylesheet" href="./css/main.css">
+
+        <script src="./node_modules/web3/dist/web3.min.js"></script>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+
+        <script src="./js/jquery.min.js"></script>
+
+
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" crossorigin="anonymous"></script>
+
+
+        <script src="bundle.js"></script>
+
+
+
+    </head>
+    <body ng-app="myApp" ng-controller="recipientCtrl">
+
+        <div class='container'>
+
+            <h1 >Recipient page</h1>
+            <span ng-if = 'principal_account' class='text-muted'>Address: {{recipient_account}}</span>
+            <hr>
+        </div>
+
+
+        <div class= 'container'>
+            <h3 class='header'>7. Transport contract, delivery subcontractor verification</h3>
+            <br>
+            <form class="form-horizontal">
+
+                <div class="form-group"> 
+                    <label class="control-label col-sm-2">Retrive Key pair (transport contract):</label>
+                    <div class="col-sm-10"> 
+
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="At transport contract" ng-value='TransportContractAdd' ng-model='TransportContractAdd' disabled=""> 
+                            <div class="input-group-btn">
+                                <button type="submit" class="btn btn-success" ng-click="SubcontractorKeyPair = getKeyPair(TransportContract, TransportContractAdd, recipient_account)">1. Get key pair</button>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class='col-sm-12' ng-if= 'SubcontractorKeyPair' style="margin-top: 10px">
+                        <table class="table table-bordered" >
+                            <thead>
+                                <tr>
+                                    <th>At contract:</th>
+                                    <th>{{TransportContractAdd}}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <th>From delivery subcontractor</th>
+                                    <td>{{SubcontractorKeyPair[0]}}</td>
+                                </tr>
+                                <tr>
+                                    <th>To recipient</th>
+                                    <td>{{SubcontractorKeyPair[1]}}</td>
+                                </tr>
+                                <tr>
+                                    <th>Private Key</th>
+                                    <td><code>{{SubcontractorKeyPair[2]}}</code></td>
+                                </tr>
+                                <tr>
+                                    <th>Public Key</th>
+                                    <td><code>{{SubcontractorKeyPair[3]}}</code></td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-sm-2">Message to encrypt:</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" placeholder="Plain message to encrypt" ng-model='plainText'>
+                    </div>
+                </div>
+                <div class="form-group"> 
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <button type="submit" class="btn btn-success"  ng-click="generateEncrypt(plainText, SubcontractorKeyPair)">2. Encrypt it </button>
+
+
+                        <button type="submit" class="btn btn-success"  ng-click="setEncrypt(TransportContract, TransportContractAdd, recipient_account)">3. Push to contract </button>
+                    </div>
+                </div>
+
+            </form>
+
+
+
+        </div>
+
+
+
+
+        <div class= 'container'> 
+            <h3 class='header'>8. Shipper & Recipient contract, confirm paracel received</h3>
+            <br>
+            <form class="form-horizontal">
+
+                <div class="form-group"> 
+                    <label class="control-label col-sm-2">Retrive Key pair (Shipper & Recipient contract):</label>
+                    <div class="col-sm-10"> 
+
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="principal contract address" ng-value='ShipperRecipientContractAdd' ng-model='ShipperRecipientContractAdd'> 
+                            <div class="input-group-btn">
+                                <button type="submit" class="btn btn-default" ng-click="ShipperRecipientKeyPair = getKeyPair(ShipperRecipientContract,ShipperRecipientContractAdd, recipient_account)">Get key pair</button>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class='col-sm-12' ng-if= 'ShipperRecipientKeyPair' style="margin-top: 10px">
+                        <table class="table table-bordered" >
+                            <thead>
+                                <tr>
+                                    <th>At contract:</th>
+                                    <th>{{ShipperRecipientContractAdd}}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <th>Shipper Account address</th>
+                                    <td>{{ShipperRecipientKeyPair[0]}}</td>
+                                </tr>
+                                <tr>
+                                    <th>Recipient Account address</th>
+                                    <td>{{ShipperRecipientKeyPair[1]}}</td>
+                                </tr>
+                                <tr>
+                                    <th>Private Key</th>
+                                    <td><code>{{ShipperRecipientKeyPair[2]}}</code></td>
+                                </tr>
+                                <tr>
+                                    <th>Public Key</th>
+                                    <td><code>{{ShipperRecipientKeyPair[3]}}</code></td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-sm-2">Message to encrypt:</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" placeholder="Plain message to encrypt" ng-model='plainText'>
+                    </div>
+                </div>
+                <div class="form-group"> 
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <button type="submit" class="btn btn-success"  ng-click="generateEncrypt(plainText, ShipperRecipientKeyPair)">1. Encrypt it </button>
+
+
+                        <button type="submit" class="btn btn-success"  ng-click="setEncrypt(ShipperRecipientContract,  ShipperRecipientContractAdd, recipient_account)">2. Push to contract </button>
+                       
+                    </div>
+                </div>
+
+            </form>
+
+        </div>
+
+        <hr>
+
+
+
+        <br>
+        <br>
+        <br>
+
+    </body>
+</html>
