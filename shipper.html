@@ -260,13 +260,13 @@ and open the template in the editor.
 
                 <div class="form-group"> 
                     <div class="col-sm-offset-2 col-sm-10">
-                        <button type="submit" class="btn btn-success" ng-show='shipper_name && shipper_address && recipient_name && recipient_address && item_description && item_weight && item_value && ShipperPrincipalKeyPair' ng-click="createConsignment(shipper_name, shipper_address, recipient_account,PartialKeyTransfer, recipient_name, recipient_address, item_description, item_weight, item_value, shipping_cost, ShipperPrincipalContractAdd, principal_account)">Confirm contract </button>
+                        <button type="submit" class="btn btn-success" ng-show='shipper_name && shipper_address && recipient_name && recipient_address && item_description && item_weight && item_value && ShipperPrincipalKeyPair' ng-click="createConsignment(shipper_account, shipper_name, shipper_address, recipient_account,PartialKeyTransfer, recipient_name, recipient_address, item_description, item_weight, item_value, shipping_cost, ShipperPrincipalContractAdd, principal_account)">Confirm contract </button>
                     </div>
                 </div>
             </form>
 
-            
             <table class="table table-bordered" ng-if= 'consignment'>
+
                 <thead>
                     <tr>
                         <th>Tracking number:</th>
@@ -276,7 +276,7 @@ and open the template in the editor.
                 <tbody>
                     <tr>
                         <th>From</th>
-                        <td>{{consignment[1]}}</td>
+                        <td>{{consignment[0]}}</td>
                     </tr>
                     <tr>
                         <th>To</th>
@@ -289,6 +289,10 @@ and open the template in the editor.
                     <tr>
                         <th>Shipping cost (eth):</th>
                         <td>{{consignment[5]}}</td>
+                    </tr>
+                    <tr>
+                        <th>Public key transfered:</th>
+                        <td><code>{{consignment[2]}}</code></td>
                     </tr>
                 </tbody>
             </table>

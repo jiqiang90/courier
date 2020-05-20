@@ -19,8 +19,7 @@ if (typeof web3 !== 'undefined') {
 
 }
 
-
-const ABI = [{"constant":true,"inputs":[{"name":"track","type":"string"}],"name":"getConsignment","outputs":[{"name":"","type":"address"},{"name":"","type":"string"},{"name":"","type":"address"},{"name":"","type":"string"},{"name":"","type":"string"},{"name":"","type":"uint256"},{"name":"","type":"address"},{"name":"","type":"string"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"","type":"uint256"}],"name":"ConsignmentList","outputs":[{"name":"","type":"string"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"getKeyPairs","outputs":[{"name":"","type":"address[]"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"getTransportRecords","outputs":[{"name":"","type":"bytes32[]"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"","type":"uint256"}],"name":"KeyPairList","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"_time","type":"bytes32"}],"name":"getTransportRecord","outputs":[{"name":"","type":"string"},{"name":"","type":"bytes32"},{"name":"","type":"address"},{"name":"","type":"string"},{"name":"","type":"string"},{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"_keyAddress","type":"address"},{"name":"_sender","type":"address"},{"name":"_receiver","type":"address"},{"name":"_privKey","type":"string"},{"name":"_pubKey","type":"string"}],"name":"setKeyPair","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[{"name":"keyAddress","type":"address"}],"name":"getCiphertext","outputs":[{"name":"","type":"string"},{"name":"","type":"string"},{"name":"","type":"string"},{"name":"","type":"string"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"_keyAddress","type":"address"},{"name":"_iv","type":"string"},{"name":"_ephemPublicKey","type":"string"},{"name":"_ciphertext","type":"string"},{"name":"_mac","type":"string"}],"name":"pushCiphertext","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"name":"_contractor","type":"address"},{"name":"_consignment","type":"string"},{"name":"_time","type":"bytes32"},{"name":"_status","type":"string"},{"name":"_location","type":"string"},{"name":"_recipient","type":"address"}],"name":"setTransportRecord","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[{"name":"ins","type":"address"}],"name":"getKeyPair","outputs":[{"name":"","type":"address"},{"name":"","type":"address"},{"name":"","type":"string"},{"name":"","type":"string"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"","type":"uint256"}],"name":"CiphertextList","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"","type":"uint256"}],"name":"transportRecordList","outputs":[{"name":"","type":"bytes32"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"_shipper","type":"address"},{"name":"_shipperInfo","type":"string"},{"name":"_recipient","type":"address"},{"name":"_recipientInfo","type":"string"},{"name":"_itemInfo","type":"string"},{"name":"_cost","type":"uint256"},{"name":"_principal","type":"address"},{"name":"_keyPairAddress","type":"address"},{"name":"_trackingNum","type":"string"}],"name":"setConsignment","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"anonymous":false,"inputs":[{"indexed":false,"name":"contractAddress","type":"address"},{"indexed":false,"name":"sender","type":"address"},{"indexed":false,"name":"receiver","type":"address"},{"indexed":false,"name":"privKey","type":"string"},{"indexed":false,"name":"pubKey","type":"string"}],"name":"KeyPairInfo","type":"event"}];
+const ABI = [{"constant":true,"inputs":[{"name":"track","type":"string"}],"name":"getConsignment","outputs":[{"name":"","type":"string"},{"name":"","type":"address"},{"name":"","type":"string"},{"name":"","type":"string"},{"name":"","type":"string"},{"name":"","type":"uint256"},{"name":"","type":"address"},{"name":"","type":"string"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"","type":"uint256"}],"name":"ConsignmentList","outputs":[{"name":"","type":"string"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"getKeyPairs","outputs":[{"name":"","type":"address[]"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"_shipper","type":"address"},{"name":"_shipperInfo","type":"string"},{"name":"_recipient","type":"address"},{"name":"_recipientPartialKey","type":"string"},{"name":"_recipientInfo","type":"string"},{"name":"_itemInfo","type":"string"},{"name":"_cost","type":"uint256"},{"name":"_principal","type":"address"},{"name":"_keyPairAddress","type":"address"},{"name":"_trackingNum","type":"string"}],"name":"setConsignment","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"getTransportRecords","outputs":[{"name":"","type":"bytes32[]"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"","type":"uint256"}],"name":"KeyPairList","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"_time","type":"bytes32"}],"name":"getTransportRecord","outputs":[{"name":"","type":"string"},{"name":"","type":"bytes32"},{"name":"","type":"address"},{"name":"","type":"string"},{"name":"","type":"string"},{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"_keyAddress","type":"address"},{"name":"_sender","type":"address"},{"name":"_receiver","type":"address"},{"name":"_privKey","type":"string"},{"name":"_pubKey","type":"string"}],"name":"setKeyPair","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[{"name":"keyAddress","type":"address"}],"name":"getCiphertext","outputs":[{"name":"","type":"string"},{"name":"","type":"string"},{"name":"","type":"string"},{"name":"","type":"string"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"_keyAddress","type":"address"},{"name":"_iv","type":"string"},{"name":"_ephemPublicKey","type":"string"},{"name":"_ciphertext","type":"string"},{"name":"_mac","type":"string"}],"name":"pushCiphertext","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"name":"_contractor","type":"address"},{"name":"_consignment","type":"string"},{"name":"_time","type":"bytes32"},{"name":"_status","type":"string"},{"name":"_location","type":"string"},{"name":"_recipient","type":"address"}],"name":"setTransportRecord","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[{"name":"ins","type":"address"}],"name":"getKeyPair","outputs":[{"name":"","type":"address"},{"name":"","type":"address"},{"name":"","type":"string"},{"name":"","type":"string"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"","type":"uint256"}],"name":"CiphertextList","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"","type":"uint256"}],"name":"transportRecordList","outputs":[{"name":"","type":"bytes32"}],"payable":false,"stateMutability":"view","type":"function"},{"anonymous":false,"inputs":[{"indexed":false,"name":"contractAddress","type":"address"},{"indexed":false,"name":"sender","type":"address"},{"indexed":false,"name":"receiver","type":"address"},{"indexed":false,"name":"privKey","type":"string"},{"indexed":false,"name":"pubKey","type":"string"}],"name":"KeyPairInfo","type":"event"}];
 
 var Web3Utils = require('web3-utils');
 
@@ -45,12 +44,29 @@ function timestamp($http) {
 /**************END***************/
 
 
+/***************JSON LINE BREAK TO HTML*********/
+
+app.directive('jsontext', jsontext);
+function jsontext($sce) {
+    return {
+        restrict: 'E', // if it's element
+        scope: {text: '=text'},
+        template: "<p ng-bind-html ='html_text' ></p>", // example template
+        link: function (scope, element, attrs) {
+            scope.html_text =$sce.trustAsHtml(scope.text.replace(/\r\n|\\n|\n|\r/g, '<br />'));
+
+        }
+    };
+}
+/**************END***************/
+
+
 app.run(function($rootScope) {
 
     $rootScope.all_accounts= web3.eth.accounts;
-    $rootScope.ShipperRecipientContractAdd = "0x00FeEFbc8a16f3fD25dd9DB1215f6eDBB0359CA2";
-    $rootScope.ShipperPrincipalContractAdd = "0x6c3A201b31aced9e7171B02c2B82Ca5Ac431de5C";
-    $rootScope.TransportContractAdd = "0xE6B8c454F68fAD029e8c83613f8e1c78Af356CB8";
+    $rootScope.ShipperRecipientContractAdd = "0x136EAd33F1D85537E6E408E6d82704d24eB9A6d5";
+    $rootScope.ShipperPrincipalContractAdd = "0x62C4be99eCFB0dC51fEB349982DE4D5b7f3e5F8F";
+    $rootScope.TransportContractAdd = "0x8708F2895d749e8D7b7123236249aC3265eB1733";
 
 
     $rootScope.ShipperRecipientContract = web3.eth.contract(ABI);
@@ -103,6 +119,7 @@ app.run(function($rootScope) {
 
     async function encryption($plainText,$KeyPair) {
         var EthCrypto = require('eth-crypto');
+        console.log($KeyPair[3]);
         const encrypted = await EthCrypto.encryptWithPublicKey($KeyPair[3], $plainText);
         return encrypted;
     }
@@ -183,17 +200,7 @@ app.run(function($rootScope) {
 
         var contract = $rootScope.TransportContract.at($contractAddress); 
 
-
-
-        console.log(
-            $msg_sender,
-            $consignment,
-            $rootScope.timepoint,
-            $status,
-            $location,
-            $recipientAddress, //recipent
-        );
-      
+    
         var setRecord = contract.setTransportRecord(
             $msg_sender,
             $consignment,
@@ -204,7 +211,7 @@ app.run(function($rootScope) {
             {from: $msg_sender , gas:3000000}
         )
         
-
+   
 
         window.alert('Record in contract, Hex is '+ $rootScope.timepoint);
     }
@@ -238,6 +245,35 @@ app.run(function($rootScope) {
 
         return $time;
 
+    }
+
+    $rootScope.boolAccessConsignment = false;
+    $rootScope.accessConsignment = function ($Contract, $ContractAdd, target_account){
+        web3.eth.defaultAccount = target_account;
+        $target_keyPair = $rootScope.getKeyPair ($Contract, $ContractAdd, target_account);
+        $target_pubKey = $target_keyPair[3];
+
+
+        $ciphertext = $rootScope.getCiphertext($Contract, $ContractAdd, target_account);
+        if ($target_keyPair){
+            //change identity, as delivery staff
+            web3.eth.defaultAccount = $target_keyPair[0];
+            $init_keyPair = $rootScope.getKeyPair ($Contract, $ContractAdd, target_account);
+            $init_pubkey = $init_keyPair[3];
+            if (($target_pubKey ===  $init_pubkey) && $ciphertext) {
+                window.alert ('Allow recipient : ' + target_account + 'access to Publick key in consignment')
+                $rootScope.boolAccessConsignment = true;
+            }
+        }
+        web3.eth.defaultAccount = target_account;
+    }
+
+    $rootScope.getConsignmentFromRecord = function ($TransportContractAdd){
+
+        var TransportRecords = $rootScope.getRecords($TransportContractAdd);
+        console.log(TransportRecords);
+        var lastRecord = $rootScope.getRecord(TransportRecords[TransportRecords.length-1], $TransportContractAdd);
+        return lastRecord[0];
     }
 
 
@@ -294,11 +330,12 @@ app.controller('shipperCtrl', function($scope,$rootScope) {
 
 
 
-    $scope.createConsignment = function (shipper_name, shipper_address ,recipient_account,recipientPartialKey, recipient_name ,recipient_address, item_description ,item_weight ,item_value ,shipping_cost, ShipperPrincipalContractAdd, principal_account){
+    $scope.createConsignment = function (shipper_account, shipper_name, shipper_address ,recipient_account,recipientPartialKey, recipient_name ,recipient_address, item_description ,item_weight ,item_value ,shipping_cost, ShipperPrincipalContractAdd, principal_account){
 
         var trackingNum = 'NZ' + Math.floor(100000000 + Math.random() * 900000000); // generate a random number but not unique
         var storeConsignment = $scope.ShipperRecipientContract.at($rootScope.ShipperPrincipalContractAdd);
         var consignment = storeConsignment.setConsignment(
+            shipper_account,
             'From : ' + shipper_name + '. Address :' + shipper_address,
             recipient_account,
             recipientPartialKey,
@@ -335,12 +372,14 @@ app.controller('principalCtrl', function($scope,$rootScope){
 
     $scope.setPrincipalSubcontractorRecord = function($msg_sender, $consignment, $status, $location,$recipientAddress,$contractAddress){
 
-        $consignment_reformat  ='Tracking: ' + $consignment[7] + '\n'+  $consignment[1] + '\n' + $consignment[3] + '\n' + $consignment[4];
+        $consignment_reformat  ='Tracking: ' + $consignment[7] + '\\n'+  $consignment[1] + '\\n' + $consignment[3] + '\\n' + $consignment[4] + '\\n'+ 'Public key transfered: <code>' + $consignment[2] + '</code>';
 
+        //$consignment_reformat = 'Tracking: NZ613587356\n0xec6a6e677feafe4c5209c92ddbe98fd0bd3e6756\nTo : Toon. Address :Christchurch\nItem : imac. Weight : 80. Value: 20\nPublic key transfered: 8679e9757127695386dd11b4dadb939e85ced6279cb1447710aafa890f1377fb';
+        
         $rootScope.setRecord($msg_sender, $consignment_reformat, $status, $location,$recipientAddress, $contractAddress);
-        var record = $rootScope.getRecord($rootScope.timepoint,$contractAddress);
-        return record;
-
+        //var record = $rootScope.getRecord($rootScope.timepoint,$contractAddress);
+        //return record;
+        
     }
 
 
@@ -365,6 +404,13 @@ app.controller('recipientCtrl', function($scope,$rootScope){
     $scope.principal_account = web3.eth.accounts[2];
 
     web3.eth.defaultAccount = $rootScope.all_accounts[1]; //principal account 
+
+    $scope.mergePublicKey = function ($FullShipperRecipientKey, $ShipperRecipientKeyPair){
+
+        $ShipperRecipientKeyPair[3] = $FullShipperRecipientKey;
+        console.log($ShipperRecipientKeyPair);
+        return $ShipperRecipientKeyPair;
+    }
 
 
 

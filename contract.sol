@@ -23,6 +23,7 @@ contract Courier  {
         address shipper;
         string shipperInfo;
         address recipient;
+        string recipientPartialKey;
         string recipientInfo;
         string itemInfo;
         uint shippingCost;
@@ -61,20 +62,19 @@ contract Courier  {
     );
     
 
+  
     
-    
-    function setKeyPair(address _contractAddress, address _sender, address _receiver, string _privKey, string _pubKey) public { 
+    function setKeyPair(address _keyAddress, address _sender, address _receiver, string _privKey, string _pubKey) public { 
         
-        if(_sender == msg.sender){ // only sender can set key pair
-            var keyPair = keyPairs[_contractAddress];  //create key in array
+            var keyPair = keyPairs[_keyAddress];  //receiver address as the key address
             keyPair.sender = _sender;
             keyPair.receiver = _receiver;
             keyPair.privKey = _privKey;
             keyPair.pubKey = _pubKey;
-            KeyPairList.push(_contractAddress) -1; //push to array
+            KeyPairList.push(_keyAddress) -1; //push to array
             
-            KeyPairInfo(_contractAddress,  _sender,  _receiver, _privKey, _pubKey); //watch event
-        }
+            KeyPairInfo(_keyAddress,  _sender,  _receiver, _privKey, _pubKey); //watch event
+      
     }
 
     function getKeyPair(address ins) view public returns (address,address, string,string) {   // only sender and receiver can view their key pair
@@ -93,7 +93,7 @@ contract Courier  {
     
 
     
-    function setConsignment(address _shipper,string _shipperInfo,address _recipient,string _recipientInfo, string _itemInfo, uint _cost, address _principal,address _keyPairAddress, string _trackingNum) public { 
+    function setConsignment(address _shipper,string _shipperInfo,address _recipient,string _recipientPartialKey, string _recipientInfo, string _itemInfo, uint _cost, address _principal,address _keyPairAddress, string _trackingNum) public { 
         
         var consignment = consignments[_trackingNum];
         
@@ -102,6 +102,7 @@ contract Courier  {
 
 
         consignment.recipient = _recipient;
+        consignment.recipientPartialKey = _recipientPartialKey;
         consignment.recipientInfo = _recipientInfo;
 
         consignment.itemInfo = _itemInfo;
@@ -113,16 +114,18 @@ contract Courier  {
         ConsignmentList.push(_trackingNum) -1; //push to array
     }
  
-    function getConsignment(string track) view public returns (address,string,address,string,string,uint,address,string) {   
+    function getConsignment(string track) view public returns (string,address,string,string,string,uint,address,string) {   
         return (
-            consignments[track].shipper,
+            //consignments[track].shipper,
             consignments[track].shipperInfo, 
             consignments[track].recipient,
+            consignments[track].recipientPartialKey,
+
             consignments[track].recipientInfo,
             consignments[track].itemInfo,
             consignments[track].shippingCost, 
             consignments[track].principal,
-
+            
             track
             );
     }
@@ -168,7 +171,7 @@ contract Courier  {
             
     }
     
-    function getTransportRecord(bytes32 _time) view public returns (string,bytes32,address,string,string) { 
+    function getTransportRecord(bytes32 _time) view public returns (string,bytes32,address,string,string,address) { 
         
 
             return(
@@ -176,7 +179,9 @@ contract Courier  {
                 transportRecords[_time].time,
                 transportRecords[_time].contractor,
                 transportRecords[_time].status,
-                transportRecords[_time].location
+                transportRecords[_time].location,
+                transportRecords[_time].recipient
+
                );
             
     }

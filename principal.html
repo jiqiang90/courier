@@ -134,37 +134,37 @@ and open the template in the editor.
                     </div>
                 </div>
 
-                <table class="table table-bordered" ng-if= 'consignment'>
-                    <thead>
-                        <tr>
-                            <th>Tracking number:</th>
-                            <th>{{consignment[7]}}</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <th>From</th>
-                            <td>{{consignment[1]}}</td>
-                        </tr>
-                        <tr>
-                            <th>To</th>
-                            <td>{{consignment[3]}}</td>
-                        </tr>
-                        <tr>
-                            <th>Item description:</th>
-                            <td>{{consignment[4]}}</td>
-                        </tr>
-                        <tr>
-                            <th>Shipping cost (eth):</th>
-                            <td>{{consignment[5]}}</td>
-                        </tr>
+            <table class="table table-bordered" ng-if= 'consignment'>
 
-                        <tr>
-                            <th>Recipient account:</th>
-                            <td>{{consignment[2]}}</td>
-                        </tr>
-                    </tbody>
-                </table>
+                <thead>
+                    <tr>
+                        <th>Tracking number:</th>
+                        <th>{{consignment[7]}}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th>From</th>
+                        <td>{{consignment[0]}}</td>
+                    </tr>
+                    <tr>
+                        <th>To</th>
+                        <td>{{consignment[3]}}</td>
+                    </tr>
+                    <tr>
+                        <th>Item description:</th>
+                        <td>{{consignment[4]}}</td>
+                    </tr>
+                    <tr>
+                        <th>Shipping cost (eth):</th>
+                        <td>{{consignment[5]}}</td>
+                    </tr>
+                    <tr>
+                        <th>Public key transfered:</th>
+                        <td><code>{{consignment[2]}}</code></td>
+                    </tr>
+                </tbody>
+            </table>
             </form>
 
             <form class="form-horizontal">
@@ -187,7 +187,7 @@ and open the template in the editor.
 
 
                 <div class="form-group"> 
-                    <button type="submit" class="btn btn-success col-sm-offset-11"  ng-click="PrincipalSubcontractorRecord = setPrincipalSubcontractorRecord(principal_account, consignment, recordStatus_options.model, record_location, consignment[2], TransportContractAdd)">Record it</button>            
+                    <button type="submit" class="btn btn-success col-sm-offset-11"  ng-click="PrincipalSubcontractorRecord = setPrincipalSubcontractorRecord(principal_account, consignment, recordStatus_options.model, record_location, consignment[1], TransportContractAdd)">Record it</button>            
                 </div>
             </form> 
 
@@ -233,7 +233,7 @@ and open the template in the editor.
                             </tr>
                             <tr>
                                 <th>Consignment Info:</th>
-                                <td>{{fullRecords[record][0]}}</td>
+                                <td><jsontext text = 'fullRecords[record][0]'></jsontext></td>
                             </tr>
                         </tbody>
                     </table>

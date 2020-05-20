@@ -92,19 +92,26 @@ and open the template in the editor.
                 <div class="form-group">
                     <label class="control-label col-sm-2">Message to encrypt:</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" placeholder="Plain message to encrypt" ng-model='plainText'>
+                        <input type="text" class="form-control" placeholder="Plain message to encrypt" ng-model='plainText_a'>
                     </div>
                 </div>
                 <div class="form-group"> 
                     <div class="col-sm-offset-2 col-sm-10">
-                        <button type="submit" class="btn btn-success"  ng-click="generateEncrypt(plainText, SubcontractorKeyPair)">2. Encrypt it </button>
-
+                        <button type="submit" class="btn btn-success"  ng-click="generateEncrypt(plainText_a, SubcontractorKeyPair)">2. Encrypt it </button>
 
                         <button type="submit" class="btn btn-success"  ng-click="setEncrypt(TransportContract, TransportContractAdd, recipient_account)">3. Push to contract </button>
+
+                        <button class="btn btn-success"  ng-click="accessConsignment(TransportContract, TransportContractAdd, recipient_account)">4. Check accessiblity to consignment </button>
+
+                        <button class="btn btn-success" ng-show='boolAccessConsignment' ng-click="consignmentInfo = getConsignmentFromRecord(TransportContractAdd)">5. Get consignment </button>
+
+                        
+                        <p class='well' style="margin-top: 10px" ng-if='consignmentInfo'><jsontext text = 'consignmentInfo'></jsontext></p>
+
                     </div>
                 </div>
-
             </form>
+            
 
 
 
@@ -152,7 +159,7 @@ and open the template in the editor.
                                     <td><code>{{ShipperRecipientKeyPair[2]}}</code></td>
                                 </tr>
                                 <tr>
-                                    <th>Public Key</th>
+                                    <th>Public Key (First half)</th>
                                     <td><code>{{ShipperRecipientKeyPair[3]}}</code></td>
                                 </tr>
 
@@ -167,12 +174,25 @@ and open the template in the editor.
                         <input type="text" class="form-control" placeholder="Plain message to encrypt" ng-model='plainText'>
                     </div>
                 </div>
+
+
+                <div class="form-group">
+                    <label class="control-label col-sm-2">Complete public key:</label>
+                    <div class="col-sm-10">
+                        <input type='text' class='form-control' ng-model='FullShipperRecipientKey'>
+                    </div>
+                </div>
+
                 <div class="form-group"> 
                     <div class="col-sm-offset-2 col-sm-10">
-                        <button type="submit" class="btn btn-success"  ng-click="generateEncrypt(plainText, ShipperRecipientKeyPair)">1. Encrypt it </button>
+
+                        <button type="submit" class="btn btn-success"  ng-click="NewShipperRecipientKeyPair = mergePublicKey(FullShipperRecipientKey, ShipperRecipientKeyPair)">1. Merge Public key </button>
 
 
-                        <button type="submit" class="btn btn-success"  ng-click="setEncrypt(ShipperRecipientContract,  ShipperRecipientContractAdd, recipient_account)">2. Push to contract </button>
+                        <button type="submit" class="btn btn-success"  ng-click="generateEncrypt(plainText, NewShipperRecipientKeyPair)">2. Encrypt it </button>
+
+
+                        <button type="submit" class="btn btn-success"  ng-click="setEncrypt(ShipperRecipientContract,  ShipperRecipientContractAdd, recipient_account)">3. Push to contract </button>
                        
                     </div>
                 </div>
