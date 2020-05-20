@@ -6,7 +6,7 @@ and open the template in the editor.
 -->
 <html>
     <head>
-        <title>Shipper</title>
+        <title>Sender (Shipper)</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -303,7 +303,7 @@ and open the template in the editor.
             <h3 class='header'>3.b Decrypt principal ciphertext, verification</h3>
             <br>
                  <div class="form-group">
-                        <button type="submit" class="btn btn-default"  ng-click="principal_ciphertext = getCiphertext(ShipperPrincipalContract, ShipperPrincipalContractAdd)">Get ciphertext from contract </button>
+                        <button type="submit" class="btn btn-default"  ng-click="principal_ciphertext = getCiphertext(ShipperPrincipalContract, ShipperPrincipalContractAdd,shipper_account,shipper_account)">Get ciphertext from contract </button>
                        
                         <textarea class='form-control' rows='3' style="margin-top: 10px">{{principal_ciphertext}}</textarea>
                 </div>
@@ -319,11 +319,11 @@ and open the template in the editor.
 
         <hr>
         <div class='container'>
-            <h3 class='header'>8. Decrypt shipper ciphertext, verification</h3>
+            <h3 class='header'>8. Decrypt recipient ciphertext, verification</h3>
             <span class='text-muted'>Get confirmation from Recipient that parcel has received</span>
             <br>
                  <div class="form-group">
-                        <button type="submit" class="btn btn-default"  ng-click="recipient_ciphertext = getCiphertext(ShipperRecipientContract, ShipperRecipientContractAdd,shipper_account)">Get ciphertext from contract </button>
+                        <button type="submit" class="btn btn-default"  ng-click="recipient_ciphertext = getCiphertext(ShipperRecipientContract, ShipperRecipientContractAdd,shipper_account,shipper_account)">Get ciphertext from contract </button>
                        
                         <textarea class='form-control' rows='3' style="margin-top: 10px">{{recipient_ciphertext}}</textarea>
                 </div>

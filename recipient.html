@@ -99,7 +99,7 @@ and open the template in the editor.
                     <div class="col-sm-offset-2 col-sm-10">
                         <button type="submit" class="btn btn-success"  ng-click="generateEncrypt(plainText_a, SubcontractorKeyPair)">2. Encrypt it </button>
 
-                        <button type="submit" class="btn btn-success"  ng-click="setEncrypt(TransportContract, TransportContractAdd, recipient_account)">3. Push to contract </button>
+                        <button type="submit" class="btn btn-success"  ng-click="setEncrypt(TransportContract, TransportContractAdd, recipient_account,SubcontractorKeyPair[0])">3. Push to contract </button>
 
                         <button class="btn btn-success"  ng-click="accessConsignment(TransportContract, TransportContractAdd, recipient_account)">4. Check accessiblity to consignment </button>
 
@@ -192,7 +192,7 @@ and open the template in the editor.
                         <button type="submit" class="btn btn-success"  ng-click="generateEncrypt(plainText, NewShipperRecipientKeyPair)">2. Encrypt it </button>
 
 
-                        <button type="submit" class="btn btn-success"  ng-click="setEncrypt(ShipperRecipientContract,  ShipperRecipientContractAdd, recipient_account)">3. Push to contract </button>
+                        <button type="submit" class="btn btn-success"  ng-click="setEncrypt(ShipperRecipientContract,  ShipperRecipientContractAdd, recipient_account,shipper_account)">3. Push to contract </button>
                        
                     </div>
                 </div>

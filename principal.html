@@ -104,7 +104,7 @@ and open the template in the editor.
                         <button type="submit" class="btn btn-success"  ng-click="generateEncrypt(plainText, ShipperPrincipalKeyPair)">2. Encrypt it </button>
 
 
-                        <button type="submit" class="btn btn-success"  ng-click="setEncrypt(ShipperPrincipalContract, ShipperPrincipalContractAdd, principal_account)">3. Push to contract </button>
+                        <button type="submit" class="btn btn-success"  ng-click="setEncrypt(ShipperPrincipalContract, ShipperPrincipalContractAdd, principal_account,shipper_account)">3. Push to contract </button>
                     </div>
                 </div>
 
@@ -309,7 +309,7 @@ and open the template in the editor.
             <div class="form-group">
                 <div class="col-sm-10 col-sm-offset-2"> 
                     <button class="btn btn-success" ng-click='SubcontractorKeyPair = getKeyPair(TransportContract, TransportContractAdd, Key_subcontractor)'>1. Get key pair</button>
-                    <button class="btn btn-success"  ng-click="subcontract_ciphertext = getCiphertext(TransportContract, TransportContractAdd, Key_subcontractor)">2. Get ciphertext from contract </button>
+                    <button class="btn btn-success"  ng-click="subcontract_ciphertext = getCiphertext(TransportContract, TransportContractAdd, principal_account,principal_account)">2. Get ciphertext from contract </button>
                     <button type="submit" class="btn btn-success"  ng-click="decryptCiphertext(subcontract_ciphertext, SubcontractorKeyPair)">3. Decrypt it </button>     
                 </div>    
             </div>
