@@ -71,9 +71,9 @@ function jsontext($sce) {
 app.run(function($rootScope) {
 
     $rootScope.all_accounts= web3.eth.accounts;
-    $rootScope.ShipperRecipientContractAdd = "0x7BD72c05AEfd86Dd133d7a0AFbeA490a30D5487B";
-    $rootScope.ShipperPrincipalContractAdd = "0x23Fd6260721084854174d5B8bbB0475Dd69b795C";
-    $rootScope.TransportContractAdd = "0x4E04023Ed5c368e0FaEC5e49ea03983d8b56413a";
+    $rootScope.ShipperRecipientContractAdd = "0x7551CDd3Cfb48E496E74431E2E32F86C020a2b24";
+    $rootScope.ShipperPrincipalContractAdd = "0x7b5A7304f6d6B47f6FfD02FaBA37D25a0186A4e2";
+    $rootScope.TransportContractAdd = "0x88f7254a7C338F92344B53AA14EF502D9cCA1CBd";
 
 
     $rootScope.ShipperRecipientContract = web3.eth.contract(ShipperRecipientABI);
